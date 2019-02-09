@@ -5,6 +5,7 @@ Pequeño ejemplo de un servidor socket
 npm install
 
 # Dependencias del proyecto
+
 ## express verion 4.16.4 
 Utilizado para crear el servidor web y sockets
 ## cors version 2.8.5 
