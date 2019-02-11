@@ -7,8 +7,8 @@ import * as socketsEvents from '../sockets/sockets';
 export default class Server {
     
     public port: number;
-    private socket: socket.Server;
-    private httpServer: http.Server;
+    public socket: socket.Server;
+    public httpServer: http.Server;
     public app: express.Application;
     private static instance: Server = new Server();
 
@@ -30,10 +30,10 @@ export default class Server {
 
     private listenSockets() {
         this.socket.on('connection', (client) => {
-            socketsEvents.disconnect(client);
+            socketsEvents.connectClient(client);
+            socketsEvents.configUser(client);
             socketsEvents.proccessMessage(client, this.socket);
+            socketsEvents.disconnect(client);
         });
-
-        
     }
 }
