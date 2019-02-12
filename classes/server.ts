@@ -31,9 +31,10 @@ export default class Server {
     private listenSockets() {
         this.socket.on('connection', (client) => {
             socketsEvents.connectClient(client);
-            socketsEvents.configUser(client);
+            socketsEvents.configUser(client, this.socket);
+            socketsEvents.getOnlineUsers(client, this.socket);
             socketsEvents.proccessMessage(client, this.socket);
-            socketsEvents.disconnect(client);
+            socketsEvents.disconnect(client, this.socket);
         });
     }
 }

@@ -5,9 +5,10 @@ import { User } from "../classes/user";
 
 export const onlineUsers = new UserList();
 
-export const disconnect = (client: Socket) => {
+export const disconnect = (client: Socket, io: io.Server) => {
     client.on('disconnect', () => {
         onlineUsers.deleteUser(client.id);
+        io.emit('usuarios-activos', onlineUsers.getUserList());
     });
 }
 
@@ -17,18 +18,24 @@ export const proccessMessage = (client: Socket, io: io.Server) => {
     });
 }
 
-export const configUser = (client: Socket) => {
+export const configUser = (client: Socket, io: io.Server) => {
     client.on('configurar-usuario', (payload: {name:string}, 
         callback: Function) => {
         onlineUsers.updateName(client.id, payload.name);
-        
         callback({
             ok: true,
             message: `Usuario ${payload.name}`
         });
+        io.emit('usuarios-activos', onlineUsers.getUserList());
     });
 }
 
 export const connectClient = (client: Socket) => {
     onlineUsers.addUser(new User(client.id));
+}
+
+export const getOnlineUsers = (client: Socket, io: io.Server) => {
+    client.on('obtener-usuarios-activos',() => {;
+        io.in(client.id).emit('usuarios-activos', onlineUsers.getUserList());
+    });
 }

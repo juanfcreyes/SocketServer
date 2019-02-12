@@ -16,8 +16,8 @@ export class UserList {
         if (user) { user.name = name };
     }
 
-    public geUserList() {
-        return this.list;
+    public getUserList() {
+        return this.list.filter(user => user.name !== 'sin-nombre');
     }
 
     public getUser(id:string) {
